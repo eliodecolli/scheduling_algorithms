@@ -35,7 +35,15 @@ def get_and_return():
     print(burst_time_ls, time_slice, arrival_time_ls)
     at, aw, ep = rr.processData(id, burst_time =burst_time_ls, time_slice=3, arrival_time=arrival_time_ls)
     toreturn = [at, aw, ep]
-    return jsonify({'tst':toreturn })
+    response = make_response(
+        jsonify({
+            'Average Turnaround Time':at,
+            'Average Waiting Time':aw,
+            'Sequence of Processes':ep
+        })
+
+    )
+    return response
 
 
 if __name__ == '__main__':
