@@ -33,13 +33,16 @@ def get_and_return():
     #rr.processData(id, burst_time=burst_time,time_slice=time_slice, arrival_time=arrival_time)
 
     print(burst_time_ls, time_slice, arrival_time_ls)
-    at, aw, ep = rr.processData(id, burst_time =burst_time_ls, time_slice=3, arrival_time=arrival_time_ls)
+    at, aw, ep,completitont,turnaroundt,waitingt = rr.processData(id, burst_time =burst_time_ls, time_slice=3, arrival_time=arrival_time_ls)
     toreturn = [at, aw, ep]
     response = make_response(
         jsonify({
             'Average Turnaround Time':at,
             'Average Waiting Time':aw,
-            'Sequence of Processes':ep
+            'Sequence of Processes':ep,
+            'Completion_Time':completitont,
+            'Turnaround_Time':turnaroundt,
+            'Waiting_Time':waitingt
         })
 
     )

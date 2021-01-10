@@ -11,8 +11,8 @@ class RoundRobin:
 
             process_data.append(temporary)
         time_slice = time_slice = kwargs.__getitem__('time_slice')#int(input("Enter Time Slice: "))
-        at, aw, ep = RoundRobin.schedulingProcess(self, process_data, time_slice)
-        return at, aw, ep
+        at, aw, ep,completitont,turnaroundt,waitingt = RoundRobin.schedulingProcess(self, process_data, time_slice)
+        return at, aw, ep,completitont,turnaroundt,waitingt
 
     def schedulingProcess(self, process_data, time_slice):
         start_time = []
@@ -121,8 +121,8 @@ class RoundRobin:
                     process_data[j].append(e_time)
         t_time = RoundRobin.calculateTurnaroundTime(self, process_data)
         w_time = RoundRobin.calculateWaitingTime(self, process_data)
-        at, aw, ep = RoundRobin.printData(self, process_data, t_time, w_time, executed_process)
-        return at, aw, ep
+        at, aw, ep,completitont,turnaroundt,waitingt = RoundRobin.printData(self, process_data, t_time, w_time, executed_process)
+        return at, aw, ep, completitont,turnaroundt,waitingt
 
     def calculateTurnaroundTime(self, process_data):
         total_turnaround_time = 0
@@ -156,20 +156,30 @@ class RoundRobin:
 
     def printData(self, process_data, average_turnaround_time, average_waiting_time, executed_process):
         process_data.sort(key=lambda x: x[0])
+        turnaroundt = []
+        waitingt = []
+        completitont = []
         '''
         Sort processes according to the Process ID
         '''
         print(
             "Process_ID  Arrival_Time  Rem_Burst_Time   Completed  Original_Burst_Time  Completion_Time  Turnaround_Time  Waiting_Time")
         for i in range(len(process_data)):
+            #Append the current lists so that the desired output can be optained
             for j in range(len(process_data[i])):
-
+                if j == 5:
+                   completitont.append(process_data[i][j])
+                if j==6:
+                    turnaroundt.append(process_data[i][j])
+                if j==7:
+                    waitingt.append(process_data[i][j])
                 print(process_data[i][j], end="				")
+
             print()
         print(f'Average Turnaround Time: {average_turnaround_time}')
         print(f'Average Waiting Time: {average_waiting_time}')
         print(f'Sequence of Processes: {executed_process}')
-        return average_turnaround_time, average_waiting_time, executed_process
+        return average_turnaround_time, average_waiting_time, executed_process,completitont,turnaroundt,waitingt
 if __name__ == "__main__":
     #no_of_processes = int(input("Enter number of processes: "))
     rr = RoundRobin()
