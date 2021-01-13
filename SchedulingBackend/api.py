@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, render_template, make_response, redirect
 from RR import RoundRobin
+import random
 
 app = Flask(__name__)
 
@@ -7,27 +8,20 @@ MY_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=viaegnatia20;
 MY_IMAGE_CONTAINER = "egnatia20"
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET"])
 def get_and_return():
-    if request.method == "POST":
+    if request.method == "GET":
 
-        id = int(request.form['id'])
+        id = 5
+        rand_gen = random.Random()
 
-        burst_time_raw = request.form['burst_time']
-        burst_time = [x.strip() for x in burst_time_raw.split(',')]
         burst_time_ls = []
-        for n in burst_time:
-            burst_time_ls.append(int(n))
-            #burst_time = burst_time_ls
-
-        time_slice = int(request.form['time_slice'])
-
-        arrival_time_raw = request.form['arrival_time']
-        arrival_time = list([x.strip() for x in arrival_time_raw.split(',')])
         arrival_time_ls = []
-        for n in arrival_time:
-            arrival_time_ls.append(int(n))
-            #arrival_time = arrival_time_ls
+        time_slice = rand_gen.randrange(10)
+
+        for i in range(5):
+            burst_time_ls.append(rand_gen.randrange(20))
+            arrival_time_ls.append(i * 12)
 
     rr = RoundRobin()
     #rr.processData(id, burst_time=burst_time,time_slice=time_slice, arrival_time=arrival_time)
@@ -37,12 +31,12 @@ def get_and_return():
     toreturn = [at, aw, ep]
     response = make_response(
         jsonify({
-            'Average Turnaround Time':at,
-            'Average Waiting Time':aw,
-            'Sequence of Processes':ep,
-            'Completion_Time':completitont,
-            'Turnaround_Time':turnaroundt,
-            'Waiting_Time':waitingt
+            'att': at,
+            'awt': aw,
+            'seq_processes': ep,
+            'completion_time': completitont,
+            'turnaround_time': turnaroundt,
+            'waiting_time': waitingt
         })
 
     )
