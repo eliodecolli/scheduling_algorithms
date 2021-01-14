@@ -4,10 +4,22 @@ import random
 
 app = Flask(__name__)
 
+def _build_cors_prelight_response():
+    response = make_response()
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Headers", "*")
+    response.headers.add("Access-Control-Allow-Methods", "*")
+    return response
 
+def _corsify_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
-@app.route("/", methods=["GET"])
+@app.route("/", methods=["GET", "OPTIONS"])
 def get_and_return():
+    if request.method == "OPTIONS":
+        return _build_cors_prelight_response()
+
     if request.method == "GET":
 
         id = 5
@@ -19,7 +31,7 @@ def get_and_return():
 
         for i in range(5):
             burst_time_ls.append(rand_gen.randrange(20))
-            arrival_time_ls.append(i * 12)
+            arrival_time_ls.append(i * 2)
 
     rr = RoundRobin()
     #rr.processData(id, burst_time=burst_time,time_slice=time_slice, arrival_time=arrival_time)
@@ -38,7 +50,7 @@ def get_and_return():
         })
 
     )
-    return response
+    return _corsify_actual_response(response)
 
 
 if __name__ == '__main__':
