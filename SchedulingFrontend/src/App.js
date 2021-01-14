@@ -58,22 +58,19 @@ class App extends React.Component {
   }
 
   onClickHandler = async (e) => {
-    var process='';
     e.preventDefault();
     var config = {
       headers: {'Access-Control-Allow-Origin': '*'}
   };
     await axios
       .get("http://127.0.0.1:5000/",config)
-      .then(async function (response) {
-        process = response.data;
-        console.log(process)
+      .then(response => {
+        let process = response.data;
+        this.setState({ processData: process, isBackendCalled: true});
       })
       .catch(function (error) {
         // handle error
       });
-      this.setState({ processData: process});
-      this.setState({isBackendCalled: true })
   };
   async onSelectHandler(event) {
     await this.setState({ processChosen: event.target.value });
