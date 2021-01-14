@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import ProcessComponent from "./Components/processComponent";
 import "./App.css";
+import ShittyGanttChart from './Components/ganttChartAndUnicorns';
 
 class App extends React.Component {
   state = {
@@ -26,15 +27,14 @@ class App extends React.Component {
   };
     await axios
       .get("http://127.0.0.1:5000/",config)
-      .then(async function (response) {
+      .then(response => {
         const process = response.data;
+        this.setState({ processData: process, isBackendCalled: true });
       })
       .catch(function (error) {
         // handle error
       });
-      this.setState({ processData: process});
-      this.setState({isBackendCalled: true })
-  };
+  }; 
   async onSelectHandler(event) {
     await this.setState({ processChosen: event.target.value });
     console.log(this.state.processChosen);
@@ -98,6 +98,9 @@ class App extends React.Component {
           <table id="students">
             <tbody>{this.renderTableData()}</tbody>
           </table>
+          <div className="chartDiv">
+            <ShittyGanttChart seq={this.state.processData.seq_processes}></ShittyGanttChart>
+          </div>
         </div>
       );
   }
