@@ -13,7 +13,7 @@
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   border: 3px solid #ddd;
-  width: 100%;
+  width: auto;
 }
 
 #students td,
@@ -45,6 +45,19 @@ label, select {
 table {
   margin-top: 7px;
   margin-bottom: 7px;
+}
+.thefloatl{
+  float:left;
+  align-content: center;  text-align: center;
+}
+.thefloatr{
+  float:right;
+  align-content: center;  text-align: center;
+}
+.center{
+  margin: 200 100 300 200;
+  padding: 20%,20%,20%,20%;
+  align-content: center;
 }
 
 .chartDiv {
