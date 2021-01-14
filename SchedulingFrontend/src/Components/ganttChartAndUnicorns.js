@@ -21,7 +21,7 @@ const ShittyGanttChart = props => {
         extData.push(current);
         cIndex++;
     }
-
+console.log(extData)
     return (
         <Chart
             width={'100%'}
@@ -42,6 +42,12 @@ const ShittyGanttChart = props => {
                 ],
                 ...extData
             ]}
+            options={{
+                height: 1000,
+                gantt: {
+                  trackHeight: 25,
+                },
+              }}
         />  
     )
 }
