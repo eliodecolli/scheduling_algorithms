@@ -4,8 +4,6 @@ import random
 
 app = Flask(__name__)
 
-MY_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=viaegnatia20;AccountKey=5q2myTqtPWSaS9OUwta5Woc0opbWgaaOluLHAOa7tiqjiXsDq2sFCqAmoFaJc5tPk/Z+8SaYmgyulgKB6Vk3ng==;EndpointSuffix=core.windows.net"
-MY_IMAGE_CONTAINER = "egnatia20"
 
 
 @app.route("/", methods=["GET"])
