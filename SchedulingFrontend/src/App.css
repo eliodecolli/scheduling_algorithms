@@ -37,3 +37,12 @@
   background-color: #4caf50;
   color: white;
 }
+
+label, select {
+  margin: 4px;
+}
+
+table {
+  margin-top: 7px;
+  margin-bottom: 7px;
+}

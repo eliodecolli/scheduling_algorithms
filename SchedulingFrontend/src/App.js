@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import ZingChart from "zingchart-react";
 import ProcessComponent from "./Components/processComponent";
 import "./App.css";
 
@@ -8,52 +7,8 @@ class App extends React.Component {
   state = {
     processData: [],
     students: [
-      { id: 1, name: "Arber", age: 18 },
-      { id: 2, name: "Elidor", age: 19 },
-      { id: 3, name: "Ulger", age: 16 },
+
     ],
-    config: {
-      type: "bar",
-      "scale-y": {
-        "line-color": "#000",
-        item: {
-          "font-color": "#000",
-        },
-        values: "0:20:1",
-        guide: {
-          visible: true,
-        },
-        label: {
-          text: "Seconds",
-          "font-family": "arial",
-          bold: true,
-          "font-size": "14px",
-          "font-color": "#000",
-        },
-      },
-      series: [
-        {
-          values: [18, 19, 16],
-          alpha: 0.95,
-          borderRadiusTopLeft: 0.21,
-          "background-color": "#000",
-          text: "Apple",
-        },
-      ],
-      scaleX: {
-        values: [
-          //ketu zevendeso proess names
-          "Arber",
-          "Elidor",
-          "Ulger",
-        ],
-        series: [
-          {
-            values: [2, 2, 2],
-          },
-        ],
-      },
-    },
     processChosen: "",
     isBackendCalled: false,
   };
@@ -64,16 +19,21 @@ class App extends React.Component {
     });
   }
 
-  onClickHandler = (value) => {
-    axios
-      .post("/user", {
-        processType: this.state.processChosen,
-      })
-      .then(function (response) {
+  onClickHandler = async (e) => {
+    e.preventDefault();
+    var config = {
+      headers: {'Access-Control-Allow-Origin': '*'}
+  };
+    await axios
+      .get("http://127.0.0.1:5000/",config)
+      .then(async function (response) {
         const process = response.data;
-        this.setState({ processData: process });
-        this.setState({ isBackendCalled: true });
+      })
+      .catch(function (error) {
+        // handle error
       });
+      this.setState({ processData: process});
+      this.setState({isBackendCalled: true })
   };
   async onSelectHandler(event) {
     await this.setState({ processChosen: event.target.value });
@@ -92,7 +52,7 @@ class App extends React.Component {
           </h2>
 
           <form>
-            <label for="process">{"Process types"}</label>
+            <label>{"Process types"}</label>
             <select
               name="process"
               id="process"
@@ -101,11 +61,15 @@ class App extends React.Component {
               <option value={"processA"}>{"A"}</option>
               <option value={"processB"}>{"B"}</option>
             </select>
-            <input type="submit" value="Submit"></input>
+            <input
+              onClick={(e) => this.onClickHandler(e)}
+              type="submit"
+              value="Submit"
+            ></input>
           </form>
         </div>
       );
-    } else
+    } else if(this.state.isBackendCalled === true){
       return (
         <div className="App">
           <h1>Operating Systems Project</h1>
@@ -116,7 +80,7 @@ class App extends React.Component {
           </h2>
 
           <form>
-            <label htmlFor="process">{"Process types"}</label>
+            <label>{"Process types"}</label>
             <select
               name="process"
               id="process"
@@ -125,15 +89,18 @@ class App extends React.Component {
               <option value={"processA"}>{"A"}</option>
               <option value={"processB"}>{"B"}</option>
             </select>
-            <input type="submit" value="Submit"></input>
+            <input
+              onClick={(e) => this.onClickHandler(e)}
+              type="submit"
+              value="Submit"
+            ></input>
           </form>
           <table id="students">
             <tbody>{this.renderTableData()}</tbody>
           </table>
-          <ZingChart data={this.state.config} />
         </div>
       );
   }
 }
-
+}
 export default App;
